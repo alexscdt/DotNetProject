@@ -3,7 +3,7 @@
 ## Qui a fait le projet :
 
 - [Alexandre Schmidt](https://github.com/alexscdt) 
-- [Alexandre Meny](https://github.com/AlexandreMenu) 
+- [Alexandre Menu](https://github.com/AlexandreMenu) 
 
 ## Qu’est-ce que c’est ?
 
