@@ -11,47 +11,47 @@ namespace ProjectDotNet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class HistoryController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly HistoryContext _context;
 
-        public UserController(UserContext context)
+        public HistoryController(HistoryContext context)
         {
             _context = context;
         }
 
-        // GET: api/User
+        // GET: api/History
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<History>>> GetTodoItems()
         {
-            return await _context.User.ToListAsync();
+            return await _context.TodoItems.ToListAsync();
         }
 
-        // GET: api/User/5
+        // GET: api/History/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        public async Task<ActionResult<History>> GetHistory(long id)
         {
-            var user = await _context.User.FindAsync(id);
+            var history = await _context.TodoItems.FindAsync(id);
 
-            if (user == null)
+            if (history == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return history;
         }
 
-        // PUT: api/User/5
+        // PUT: api/History/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
+        public async Task<IActionResult> PutHistory(long id, History history)
         {
-            if (id != user.Id)
+            if (id != history.Id)  
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(history).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace ProjectDotNet.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!HistoryExists(id))
                 {
                     return NotFound();
                 }
@@ -72,37 +72,36 @@ namespace ProjectDotNet.Controllers
             return NoContent();
         }
 
-        // POST: api/User
+        // POST: api/History
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<History>> PostHistory(History history)
         {
-            _context.User.Add(user);
+            _context.TodoItems.Add(history);
             await _context.SaveChangesAsync();
 
-            // return CreatedAtAction("GetUser", new { id = user.Id }, user);
-            return CreatedAtAction(nameof(GetUser), new {id = user.Id}, user);
+            return CreatedAtAction("GetHistory", new { id = history.Id }, history);
         }
 
-        // DELETE: api/User/5
+        // DELETE: api/History/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(long id)
+        public async Task<IActionResult> DeleteHistory(long id)
         {
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var history = await _context.TodoItems.FindAsync(id);
+            if (history == null)
             {
                 return NotFound();
             }
 
-            _context.User.Remove(user);
+            _context.TodoItems.Remove(history);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(long id)
+        private bool HistoryExists(long id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.TodoItems.Any(e => e.Id == id);
         }
     }
 }

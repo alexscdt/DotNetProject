@@ -9,6 +9,6 @@ namespace ProjectDotNet.Models
         {
         }
 
-        public DbSet<User> TodoItems { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
