@@ -2,9 +2,9 @@
 
 namespace ProjectDotNet.Models
 {
-    public class UserContext : DbContext
+    public class UserDbContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options)
+        public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)
         {
         }

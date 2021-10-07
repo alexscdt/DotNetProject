@@ -2,13 +2,13 @@
 
 namespace ProjectDotNet.Models
 {
-    public class HistoryContext : DbContext
+    public class HistoryDbContext : DbContext
     {
-        public HistoryContext(DbContextOptions<HistoryContext> options)
+        public HistoryDbContext(DbContextOptions<HistoryDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<History> TodoItems { get; set; }
+        public DbSet<History> history { get; set; }
     }
 }

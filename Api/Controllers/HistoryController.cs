@@ -13,25 +13,25 @@ namespace ProjectDotNet.Controllers
     [ApiController]
     public class HistoryController : ControllerBase
     {
-        private readonly HistoryContext _context;
+        private readonly HistoryDbContext _dbContext;
 
-        public HistoryController(HistoryContext context)
+        public HistoryController(HistoryDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
         // GET: api/History
         [HttpGet]
         public async Task<ActionResult<IEnumerable<History>>> GetTodoItems()
         {
-            return await _context.TodoItems.ToListAsync();
+            return await _dbContext.history.ToListAsync();
         }
 
         // GET: api/History/5
         [HttpGet("{id}")]
         public async Task<ActionResult<History>> GetHistory(long id)
         {
-            var history = await _context.TodoItems.FindAsync(id);
+            var history = await _dbContext.history.FindAsync(id);
 
             if (history == null)
             {
@@ -51,11 +51,11 @@ namespace ProjectDotNet.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(history).State = EntityState.Modified;
+            _dbContext.Entry(history).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +77,8 @@ namespace ProjectDotNet.Controllers
         [HttpPost]
         public async Task<ActionResult<History>> PostHistory(History history)
         {
-            _context.TodoItems.Add(history);
-            await _context.SaveChangesAsync();
+            _dbContext.history.Add(history);
+            await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetHistory", new { id = history.Id }, history);
         }
@@ -87,21 +87,21 @@ namespace ProjectDotNet.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHistory(long id)
         {
-            var history = await _context.TodoItems.FindAsync(id);
+            var history = await _dbContext.history.FindAsync(id);
             if (history == null)
             {
                 return NotFound();
             }
 
-            _context.TodoItems.Remove(history);
-            await _context.SaveChangesAsync();
+            _dbContext.history.Remove(history);
+            await _dbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool HistoryExists(long id)
         {
-            return _context.TodoItems.Any(e => e.Id == id);
+            return _dbContext.history.Any(e => e.Id == id);
         }
     }
 }

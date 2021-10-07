@@ -31,6 +31,7 @@ using Microsoft.EntityFrameworkCore;
 // OTHER
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace ProjectDotNet
 {
@@ -46,28 +47,41 @@ namespace ProjectDotNet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             // Enable Cors
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options=>options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
-            
-            
+
             services.AddControllers();
             
-            services.AddDbContext<UserContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("DataBase"))
+            var connectionString =
+                "server=project-dot-net.cwkrnovrcddp.us-east-2.rds.amazonaws.com;user=admin;password=bddAWS2508;database=dotnetproject";
+
+            var serverVersion = new MariaDbServerVersion(new Version(8, 0, 26));
+            
+            // Table User
+            services.AddDbContext<UserDbContext>(
+                    dbContextOptions => dbContextOptions
+                        .UseMySql(connectionString, serverVersion)
+                        .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
                 );
-                // opt.UseInMemoryDatabase("ProjectDotNet"));
+            
+            // Table History
+            services.AddDbContext<HistoryDbContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(connectionString, serverVersion)
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors()
+            );
             
             /* services.AddDbContext<HistoryContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DataBase"))
-                );*/
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoApi", Version = "v1" });
-            //});
+            );*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
