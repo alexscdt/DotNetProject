@@ -1,0 +1,13 @@
+#games[b-b9nlqv00vs] {
+    width: 100%;
+    height: 70vh;
+    background: red;
+    display: none;
+    justify-content: center;
+    align-items: center;;
+}
+
+img[b-b9nlqv00vs] {
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,25 @@
+@page "/games"
+@using System.Diagnostics
+@using System.Reflection.Metadata
+@using System.Threading
+@using Microsoft.AspNetCore.Razor.TagHelpers
+@inject IJSRuntime JS
+
+<section id="games">
+    <img onclick="click(1)" id="1" src="img/macron.gif"/>
+    <img onclick="click(2)" id="2" src="img/shrek.gif"/>
+    <img onclick="click(3)" id="3" src="img/alegre.gif"/>
+    <img onclick="click(4)" id="4" src="img/mask.gif"/>
+</section>
+
+
+<a @onclick="Start">Start</a>
+@code {
+    
+    private void Start()
+    {    
+        Console.WriteLine("oui");
+        JS.InvokeAsync<object>("start");
+    }
+
+}
