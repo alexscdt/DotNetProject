@@ -33,10 +33,45 @@
 <script src="_framework/blazor.server.js"></script>
 
     <script>
+   
         function start() {
-            console.log('ca marche ')
             document.getElementById('games').style.display = "flex";
+            visible()
+            setTimeout(finish, 30000);
         }
+        
+        function random(min, max) {
+              min = Math.ceil(min);
+              max = Math.floor(max);
+              return Math.floor(Math.random() * (max - min)) + min;
+        }
+        
+        function visible() {
+            const ale = random(1, 7)
+            const posx = random(0,425) + "px";
+            const posy = random(0, 1400) + "px";
+            
+            document.getElementById(ale).style.display = "block";
+            document.getElementById(ale).style.top = posx;
+            document.getElementById(ale).style.left = posy;
+        
+        }
+        
+        function hidden(id) {
+            document.getElementById(id).style.display = "none"
+        }
+        
+        function finish() {
+            document.getElementById('1').style.display = "none";
+            document.getElementById('2').style.display = "none";
+            document.getElementById('3').style.display = "none";
+            document.getElementById('4').style.display = "none";
+            document.getElementById('5').style.display = "none";
+            document.getElementById('6').style.display = "none";                                                                
+            document.getElementById('games').style.display = "none";
+            DotNet.invokeMethodAsync('BlazorApp', 'Finish');
+        }
+        
     </script>
 
 </body>

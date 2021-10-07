@@ -119,13 +119,31 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 17 "C:\Users\alexs\Documents\Efficom\dotnet\DotNetProject\BlazorApp\Pages\Games.razor"
+#line 21 "C:\Users\alexs\Documents\Efficom\dotnet\DotNetProject\BlazorApp\Pages\Games.razor"
        
+
+    static int Image = 0;
+    static int Historique = 0;
     
     private void Start()
-    {    
-        Console.WriteLine("oui");
+    {
         JS.InvokeAsync<object>("start");
+    }
+
+    private void click(int id)
+    {
+        JS.InvokeAsync<object>("hidden", id);
+        JS.InvokeAsync<object>("visible");
+        Image ++;
+    }
+    
+    [JSInvokable]
+    public static async Task Finish()
+    {
+        Console.WriteLine("finis");
+        Historique = Image;
+        Image = 0;
+        Console.WriteLine("test mec");    
     }
 
 

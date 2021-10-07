@@ -6,20 +6,42 @@
 @inject IJSRuntime JS
 
 <section id="games">
-    <img onclick="click(1)" id="1" src="img/macron.gif"/>
-    <img onclick="click(2)" id="2" src="img/shrek.gif"/>
-    <img onclick="click(3)" id="3" src="img/alegre.gif"/>
-    <img onclick="click(4)" id="4" src="img/mask.gif"/>
+    <img @onclick="() => click(1)" id="1" src="img/macron.gif"/>
+    <img @onclick="() => click(2)" id="2" src="img/shrek.gif"/>
+    <img @onclick="() => click(3)" id="3" src="img/alegre.gif"/>
+    <img @onclick="() => click(4)" id="4" src="img/mask.gif"/>
+    <img @onclick="() => click(5)" id="5" src="img/melanchon.gif"/>
+    <img @onclick="() => click(6)" id="6" src="img/zemmour.gif"/>
 </section>
 
 
 <a @onclick="Start">Start</a>
+<a>Nombre d'image cliqué : @Image</a>
+<a>Ancien Score : @Historique</a>
 @code {
+
+    static int Image = 0;
+    static int Historique = 0;
     
     private void Start()
-    {    
-        Console.WriteLine("oui");
+    {
         JS.InvokeAsync<object>("start");
+    }
+
+    private void click(int id)
+    {
+        JS.InvokeAsync<object>("hidden", id);
+        JS.InvokeAsync<object>("visible");
+        Image ++;
+    }
+    
+    [JSInvokable]
+    public static async Task Finish()
+    {
+        Console.WriteLine("finis");
+        Historique = Image;
+        Image = 0;
+        Console.WriteLine("test mec");    
     }
 
 }

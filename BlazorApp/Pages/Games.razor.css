@@ -4,10 +4,13 @@
     background: red;
     display: none;
     justify-content: center;
-    align-items: center;;
+    align-items: center;
+    position: relative;
 }
 
 img {
     width: 200px;
     height: 200px;
+    display: none;
+    position: absolute;
 }
