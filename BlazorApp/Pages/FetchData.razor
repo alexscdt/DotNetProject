@@ -1,13 +1,14 @@
 ﻿@page "/fetchdata"
 
 @using BlazorApp.Data
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
 @inject WeatherForecastService ForecastService
 
-<h1>Weather forecast</h1>
+<h1>Historique</h1>
 
-<p>This component demonstrates fetching data from a service.</p>
-
-@if (forecasts == null)
+@if (history == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -17,19 +18,15 @@ else
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Score</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var History in history)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@History.Date</td>
+                    <td>@History.Score</td>
                 </tr>
             }
         </tbody>
@@ -37,10 +34,10 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
-
+    private History[] history = new History[] {};
+    
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        history = await Http.GetFromJsonAsync<History[]>("https://localhost:5001/api/history");
     }
 }

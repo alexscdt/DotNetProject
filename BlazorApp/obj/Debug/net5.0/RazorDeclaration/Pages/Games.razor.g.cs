@@ -169,11 +169,11 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
     
     protected async Task PostScore()
     {
-        if (Historique != 0)
+        if (Image != 0)
         {
             var postBody = new {    
                 IdUser = "1",
-                Score = Historique,
+                Score = Image,
                 Date =  DateTime.Now
             };
             using var response = await HttpClient.PostAsJsonAsync("https://localhost:5001/api/history", postBody);

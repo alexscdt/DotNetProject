@@ -89,6 +89,13 @@ using BlazorApp.Data;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "C:\Users\alexs\Documents\Efficom\dotnet\DotNetProject\BlazorApp\Pages\FetchData.razor"
+using System.Net.Http.Json;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
     public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -98,19 +105,21 @@ using BlazorApp.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 39 "C:\Users\alexs\Documents\Efficom\dotnet\DotNetProject\BlazorApp\Pages\FetchData.razor"
+#line 36 "C:\Users\alexs\Documents\Efficom\dotnet\DotNetProject\BlazorApp\Pages\FetchData.razor"
        
-    private WeatherForecast[] forecasts;
-
+    private History[] history = new History[] {};
+    
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        history = await Http.GetFromJsonAsync<History[]>("https://localhost:5001/api/history");
     }
 
 #line default
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private WeatherForecastService ForecastService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IHttpClientFactory ClientFactory { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient Http { get; set; }
     }
 }
 #pragma warning restore 1591
